@@ -672,3 +672,159 @@ body.gravity-active .gravity-element.dragging {
     .cat-tab { padding: 8px 18px; font-size: 0.65rem; }
     .about-stats { flex-direction: column; gap: 20px; }
 }
+
+/* ============================================================
+   CHATBOT WIDGET — Floating bottom-right chat bubble
+   ============================================================ */
+.chatbot-widget {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 10000;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 12px;
+}
+
+/* Toggle button — gold circle with chat icon */
+.chatbot-toggle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 2px solid var(--gold);
+    background: linear-gradient(135deg, var(--black-card) 0%, #1a1510 100%);
+    color: var(--gold);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transition: all 0.4s ease;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5),
+                0 0 15px rgba(212, 168, 83, 0.2);
+}
+.chatbot-toggle:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 30px rgba(0, 0, 0, 0.6),
+                0 0 25px rgba(212, 168, 83, 0.4);
+    background: linear-gradient(135deg, var(--gold-dark) 0%, var(--gold) 100%);
+    color: var(--black);
+}
+
+.chatbot-toggle-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+}
+.chatbot-toggle.open .chatbot-toggle-icon {
+    transform: rotate(90deg);
+}
+
+/* Pulse ring animation on the toggle button */
+.chatbot-pulse {
+    position: absolute;
+    inset: -4px;
+    border-radius: 50%;
+    border: 2px solid var(--gold);
+    opacity: 0;
+    animation: chatPulse 2.5s ease-out infinite;
+}
+@keyframes chatPulse {
+    0% { transform: scale(1); opacity: 0.6; }
+    100% { transform: scale(1.5); opacity: 0; }
+}
+
+/* Chat window — slides up from bottom-right */
+.chatbot-window {
+    width: 400px;
+    height: 550px;
+    border-radius: 16px;
+    overflow: hidden;
+    background: var(--black-card);
+    border: 1px solid rgba(212, 168, 83, 0.3);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7),
+                0 0 30px rgba(212, 168, 83, 0.1);
+    display: flex;
+    flex-direction: column;
+    /* Hidden by default — animated on open */
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+    pointer-events: none;
+    transition: opacity 0.4s ease, transform 0.4s ease;
+}
+.chatbot-window.open {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+}
+
+/* Chat window header bar */
+.chatbot-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 14px 18px;
+    background: rgba(10, 10, 10, 0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(212, 168, 83, 0.2);
+}
+.chatbot-header-icon {
+    color: var(--gold);
+    font-size: 1.1rem;
+    animation: sparkleRotate 3s ease-in-out infinite;
+}
+.chatbot-header-title {
+    font-family: var(--font-serif);
+    font-size: 0.95rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    flex: 1;
+}
+.chatbot-close {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid rgba(212, 168, 83, 0.3);
+    background: transparent;
+    color: var(--gray);
+    font-size: 0.85rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all var(--transition);
+}
+.chatbot-close:hover {
+    background: rgba(212, 168, 83, 0.15);
+    color: var(--gold);
+    border-color: var(--gold);
+}
+
+/* Chatbot iframe */
+.chatbot-window iframe {
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    border: none;
+    background: var(--black);
+}
+
+/* Mobile responsive */
+@media (max-width: 480px) {
+    .chatbot-window {
+        width: calc(100vw - 32px);
+        height: 70vh;
+        border-radius: 12px;
+    }
+    .chatbot-widget {
+        bottom: 16px;
+        right: 16px;
+    }
+    .chatbot-toggle {
+        width: 52px;
+        height: 52px;
+    }
+}
+
